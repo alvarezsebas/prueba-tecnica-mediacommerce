@@ -4,20 +4,29 @@ import Spinner from "./components/spinner";
 import BuscadorBar from "./components/buscador";
 import useDebounce from "./debounce";
 
+// API pública utilizada como fuente de datos.
+// Centralizar la URL facilita mantenimiento y pruebas.
 const API_URL = "https://jsonplaceholder.typicode.com/users";
 
 function App() {
+
+  // Estado principal de la aplicación.
+  // Se separan responsabilidades para mantener control claro de la UI.
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
 
+  // Hook personalizado para evitar ejecutar lógica de filtrado
+  // en cada pulsación de teclado.
   const debouncedSearch = useDebounce(search, 300);
 
   /* =============================
      FETCH
   ============================= */
 
+  // Carga inicial de datos al montar el componente.
+  // Se maneja loading, error y respuesta HTTP.
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -26,6 +35,7 @@ function App() {
 
         const response = await fetch(API_URL);
 
+        // Validación explícita de la respuesta HTTP
         if (!response.ok) {
           throw new Error("Error al obtener los usuarios");
         }
@@ -48,6 +58,9 @@ function App() {
      FILTRADO OPTIMIZADO
   ============================= */
 
+  // Se utiliza useMemo para evitar recalcular el filtro
+  // en cada render del componente.
+  // Solo se ejecuta cuando cambian users o debouncedSearch.
   const filteredUsers = useMemo(() => {
     if (!debouncedSearch) return users;
 
@@ -69,6 +82,8 @@ function App() {
      SUGERENCIAS AUTOCOMPLETE
   ============================= */
 
+  // Generación de sugerencias basada en coincidencias de búsqueda.
+  // Se memoiza para evitar recomputaciones innecesarias.
   const suggestions = useMemo(() => {
     if (!debouncedSearch) return [];
 
@@ -83,6 +98,7 @@ function App() {
       ])
       .filter(value => value.toLowerCase().includes(lower));
 
+    // Eliminación de duplicados y límite de resultados
     return [...new Set(matches)].slice(0, 5);
   }, [debouncedSearch, users]);
 
@@ -90,20 +106,25 @@ function App() {
     <div className="container">
       <h1>Listado de Usuarios</h1>
 
+      {/* Componente de búsqueda desacoplado de la lógica principal */}
       <BuscadorBar
         search={search}
         setSearch={setSearch}
         suggestions={suggestions}
       />
 
+      {/* Indicador de carga */}
       {loading && <Spinner />}
 
+      {/* Manejo visual de errores */}
       {error && (
         <div className="error-box">
           {error}
         </div>
       )}
 
+      {/* Render condicional para evitar renderizar la tabla
+         cuando la aplicación está cargando o en error */}
       {!loading && !error && (
         <TablaUsuarios
           users={filteredUsers}

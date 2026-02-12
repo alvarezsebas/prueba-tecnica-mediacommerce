@@ -37,17 +37,21 @@ la cual incluye:
 
 /React\
 ├── src/\
-│ ├── components/
+│ ├── components/buscador.jsx\
+│ ├── components/paginacion.jsx\
+│ ├── components/spinner.jsx\
+│ ├── components/tablaUsuarios.jsx\
 │ ├── App.jsx\
 │ ├── debounce.jsx\
 │ ├── index.css\
 
 
 /php\
-├── prueba_escritorio.php
+├── prueba_escritorio.php\
 ├── prueba_escritorio.pdf
 
 README.md
+
 
 ------------------------------------------------------------------------
 
@@ -121,7 +125,11 @@ npm run dev
 -   Responsive design
 -   Código modularizado por componentes
 
-------------------------------------------------------------------------
+Como punto adicional el proyecto en react esta desplegado en la web en el siguiente link:
+
+[Ver aplicación desplegada en Netlify](https://astonishing-griffin-3d0d71.netlify.app/)
+
+-------------------------------------------------------------------------------------------
 
 # 🧠 Punto 3 -- Prueba de Escritorio en PHP
 

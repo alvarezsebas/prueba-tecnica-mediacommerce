@@ -37,10 +37,7 @@ la cual incluye:
 
 /React\
 ├── src/\
-│ ├── components/buscador.jsx
-│ ├── components/paginacion.jsx
-│ ├── components/spinner.jsx
-│ ├── components/tablaUsuarios.jsx
+│ ├── components/
 │ ├── App.jsx\
 │ ├── debounce.jsx\
 │ ├── index.css\
